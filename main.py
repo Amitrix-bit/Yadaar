@@ -300,5 +300,5 @@ async def main(page: Page):
     dlg_modal.open = True
     await page.add_async(TodoApp())
 
-app(main)
-# app(target=main, view=AppView.WEB_BROWSER, assets_dir="assets")
+# app(main)
+app(target=main, view=AppView.WEB_BROWSER, assets_dir="assets")
