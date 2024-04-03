@@ -1,2 +1,304 @@
-from base64 import b64decode
-exec(b64decode("""ZnJvbSBmbGV0IGltcG9ydCBhcHAsQWxlcnREaWFsb2csRWxldmF0ZWRCdXR0b24sUGFnZSxDaGVja2JveCxBcHBWaWV3LFNjcm9sbE1vZGUsT3V0bGluZWRCdXR0b24sRmxvYXRpbmdBY3Rpb25CdXR0b24sUm93LFRleHQsVGFiLFRhYnMsVGV4dEZpZWxkLFVzZXJDb250cm9sLENvbHVtbixpY29ucyxjb2xvcnMsSWNvbkJ1dHRvbixDcm9zc0F4aXNBbGlnbm1lbnQsTWFpbkF4aXNBbGlnbm1lbnQKY2xhc3MgVGFzayhVc2VyQ29udHJvbCk6CiAgICBkZWYgX19pbml0X18oc2VsZix0YXNrX25hbWUsdGFza19zdGF0dXNfY2hhbmdlLHRhc2tfZGVsZXRlKToKICAgICAgICBzdXBlcigpLl9faW5pdF9fKCkKICAgICAgICBzZWxmLmNvbXBsZXRlZD1GYWxzZQogICAgICAgIHNlbGYudGFza19uYW1lPXRhc2tfbmFtZQogICAgICAgIHNlbGYudGFza19zdGF0dXNfY2hhbmdlPXRhc2tfc3RhdHVzX2NoYW5nZQogICAgICAgIHNlbGYudGFza19kZWxldGU9dGFza19kZWxldGUKICAgIGRlZiBidWlsZChzZWxmKToKICAgICAgICBzZWxmLmRpc3BsYXlfdGFzaz1DaGVja2JveCh2YWx1ZT1GYWxzZSwgbGFiZWw9c2VsZi50YXNrX25hbWUsIG9uX2NoYW5nZT1zZWxmLnN0YXR1c19jaGFuZ2VkKQogICAgICAgIHNlbGYuZWRpdF9uYW1lPVRleHRGaWVsZChleHBhbmQ9MSkKICAgICAgICBzZWxmLmRpc3BsYXlfdmlldz1Sb3coYWxpZ25tZW50PU1haW5BeGlzQWxpZ25tZW50LlNQQUNFX0JFVFdFRU4sdmVydGljYWxfYWxpZ25tZW50PUNyb3NzQXhpc0FsaWdubWVudC5DRU5URVIsY29udHJvbHM9W3NlbGYuZGlzcGxheV90YXNrLFJvdyhzcGFjaW5nPTAsY29udHJvbHM9W0ljb25CdXR0b24oaWNvbj1pY29ucy5DUkVBVEVfT1VUTElORUQsdG9vbHRpcD0i2YjbjNix2KfbjNi0Iixvbl9jbGljaz1zZWxmLmVkaXRfY2xpY2tlZCksSWNvbkJ1dHRvbihpY29ucy5ERUxFVEVfT1VUTElORSx0b29sdGlwPSLYrdiw2YEiLG9uX2NsaWNrPXNlbGYuZGVsZXRlX2NsaWNrZWQpXSldKQogICAgICAgIHNlbGYuZWRpdF92aWV3PVJvdyh2aXNpYmxlPUZhbHNlLGFsaWdubWVudD1NYWluQXhpc0FsaWdubWVudC5TUEFDRV9CRVRXRUVOLHZlcnRpY2FsX2FsaWdubWVudD1Dcm9zc0F4aXNBbGlnbm1lbnQuQ0VOVEVSLGNvbnRyb2xzPVtzZWxmLmVkaXRfbmFtZSxJY29uQnV0dG9uKGljb249aWNvbnMuRE9ORV9PVVRMSU5FX09VVExJTkVELGljb25fY29sb3I9Y29sb3JzLkdSRUVOLHRvb2x0aXA9Itin2LnZhdin2YQiLG9uX2NsaWNrPXNlbGYuc2F2ZV9jbGlja2VkLCldKQogICAgICAgIHJldHVybiBDb2x1bW4oY29udHJvbHM9W3NlbGYuZGlzcGxheV92aWV3LHNlbGYuZWRpdF92aWV3XSkKICAgIGFzeW5jIGRlZiBlZGl0X2NsaWNrZWQoc2VsZixlKToKICAgICAgICBzZWxmLmVkaXRfbmFtZS52YWx1ZT1zZWxmLmRpc3BsYXlfdGFzay5sYWJlbAogICAgICAgIHNlbGYuZGlzcGxheV92aWV3LnZpc2libGU9RmFsc2UKICAgICAgICBzZWxmLmVkaXRfdmlldy52aXNpYmxlPVRydWUKICAgICAgICBhd2FpdCBzZWxmLnVwZGF0ZV9hc3luYygpCiAgICBhc3luYyBkZWYgc2F2ZV9jbGlja2VkKHNlbGYsZSk6CiAgICAgICAgc2VsZi5kaXNwbGF5X3Rhc2subGFiZWw9c2VsZi5lZGl0X25hbWUudmFsdWUKICAgICAgICBzZWxmLmRpc3BsYXlfdmlldy52aXNpYmxlPVRydWUKICAgICAgICBzZWxmLmVkaXRfdmlldy52aXNpYmxlPUZhbHNlCiAgICAgICAgYXdhaXQgc2VsZi51cGRhdGVfYXN5bmMoKQogICAgYXN5bmMgZGVmIHN0YXR1c19jaGFuZ2VkKHNlbGYsZSk6CiAgICAgICAgc2VsZi5jb21wbGV0ZWQ9c2VsZi5kaXNwbGF5X3Rhc2sudmFsdWUKICAgICAgICBhd2FpdCBzZWxmLnRhc2tfc3RhdHVzX2NoYW5nZShzZWxmKQogICAgYXN5bmMgZGVmIGRlbGV0ZV9jbGlja2VkKHNlbGYsZSk6CiAgICAgICAgYXdhaXQgc2VsZi50YXNrX2RlbGV0ZShzZWxmKQpjbGFzcyBUb2RvQXBwKFVzZXJDb250cm9sKToKICAgIGdsb2JhbCB1c2VybmFtZQogICAgdXNlcm5hbWU9J1VzZXInCiAgICBkZWYgYnVpbGQoc2VsZik6CiAgICAgICAgc2VsZi5uZXdfdGFzaz1UZXh0RmllbGQoaGludF90ZXh0PSLZgtix2KfYsdmHINqG2qnYp9ixINin2YbYrNin2YUg2KjYr9uMIixvbl9zdWJtaXQ9c2VsZi5hZGRfY2xpY2tlZCxleHBhbmQ9VHJ1ZSx0ZXh0X2FsaWduPSJSSUdIVCIpCiAgICAgICAgc2VsZi50YXNrcz1Db2x1bW4oKQogICAgICAgIHNlbGYuZmlsdGVyPVRhYnMoc2Nyb2xsYWJsZT1GYWxzZSxzZWxlY3RlZF9pbmRleD0wLG9uX2NoYW5nZT1zZWxmLnRhYnNfY2hhbmdlZCx0YWJzPVtUYWIodGV4dD0i2YfZhdmHIiksIFRhYih0ZXh0PSLZgdi52KfZhCIpLFRhYih0ZXh0PSLYqtqp2YXbjNmEINi02K/ZhyIpXSkKICAgICAgICBzZWxmLml0ZW1zX2xlZnQ9VGV4dCgi2YfZhdmHINiq2qnZhduM2YQg2LTYryIsIHRleHRfYWxpZ249IlJJR0hUIikKICAgICAgICByZXR1cm4gQ29sdW1uKHdpZHRoPTEwMDAsY29udHJvbHM9W1Jvdyhjb250cm9scz1bRWxldmF0ZWRCdXR0b24oaWNvbj1pY29ucy5TVVBFUlZJU0VEX1VTRVJfQ0lSQ0xFX09VVExJTkVELHRleHQ9IlVzZXIiLGNvbG9yPSJncmVlbiIsZGlzYWJsZWQ9VHJ1ZSx0b29sdGlwPSIuLi7YqNmHINiy2YjYr9uMIildKSxSb3coY29udHJvbHM9W3NlbGYubmV3X3Rhc2ssRmxvYXRpbmdBY3Rpb25CdXR0b24oaWNvbj1pY29ucy5BREQsIG9uX2NsaWNrPXNlbGYuYWRkX2NsaWNrZWQpLF0sKSxDb2x1bW4oc3BhY2luZz0yNSxjb250cm9scz1bc2VsZi5maWx0ZXIsc2VsZi50YXNrcyxSb3coYWxpZ25tZW50PU1haW5BeGlzQWxpZ25tZW50LlNQQUNFX0JFVFdFRU4sdmVydGljYWxfYWxpZ25tZW50PUNyb3NzQXhpc0FsaWdubWVudC5DRU5URVIsY29udHJvbHM9W3NlbGYuaXRlbXNfbGVmdCxPdXRsaW5lZEJ1dHRvbih0ZXh0PSLYrdiw2YEg2KraqdmF24zZhCDYtNiv2Ycg2YfYpyIsIG9uX2NsaWNrPXNlbGYuY2xlYXJfY2xpY2tlZCksXSwpLF0sKSxdLCkKICAgIGFzeW5jIGRlZiBhZGRfY2xpY2tlZChzZWxmLGUpOgogICAgICAgIGlmIHNlbGYubmV3X3Rhc2sudmFsdWU6CiAgICAgICAgICAgIHRhc2sgPSBUYXNrKHNlbGYubmV3X3Rhc2sudmFsdWUsc2VsZi50YXNrX3N0YXR1c19jaGFuZ2Usc2VsZi50YXNrX2RlbGV0ZSkKICAgICAgICAgICAgc2VsZi50YXNrcy5jb250cm9scy5hcHBlbmQodGFzaykKICAgICAgICAgICAgc2VsZi5uZXdfdGFzay52YWx1ZT0iIgogICAgICAgICAgICBhd2FpdCBzZWxmLm5ld190YXNrLmZvY3VzX2FzeW5jKCkKICAgICAgICAgICAgYXdhaXQgc2VsZi51cGRhdGVfYXN5bmMoKQogICAgYXN5bmMgZGVmIHRhc2tfc3RhdHVzX2NoYW5nZShzZWxmLHRhc2spOgogICAgICAgIGF3YWl0IHNlbGYudXBkYXRlX2FzeW5jKCkKICAgIGFzeW5jIGRlZiB0YXNrX2RlbGV0ZShzZWxmLHRhc2spOgogICAgICAgIHNlbGYudGFza3MuY29udHJvbHMucmVtb3ZlKHRhc2spCiAgICAgICAgYXdhaXQgc2VsZi51cGRhdGVfYXN5bmMoKQogICAgYXN5bmMgZGVmIHRhYnNfY2hhbmdlZChzZWxmLGUpOgogICAgICAgIGF3YWl0IHNlbGYudXBkYXRlX2FzeW5jKCkKICAgIGFzeW5jIGRlZiBjbGVhcl9jbGlja2VkKHNlbGYsZSk6CiAgICAgICAgZm9yIHRhc2sgaW4gc2VsZi50YXNrcy5jb250cm9sc1s6XToKICAgICAgICAgICAgaWYgdGFzay5jb21wbGV0ZWQ6CiAgICAgICAgICAgICAgICBhd2FpdCBzZWxmLnRhc2tfZGVsZXRlKHRhc2spCiAgICBhc3luYyBkZWYgdXBkYXRlX2FzeW5jKHNlbGYpOgogICAgICAgIHN0YXR1cz1zZWxmLmZpbHRlci50YWJzW3NlbGYuZmlsdGVyLnNlbGVjdGVkX2luZGV4XS50ZXh0CiAgICAgICAgY291bnQ9MAogICAgICAgIGZvciB0YXNrIGluIHNlbGYudGFza3MuY29udHJvbHM6CiAgICAgICAgICAgIHRhc2sudmlzaWJsZT0oc3RhdHVzPT0i2YfZhdmHIm9yKHN0YXR1cz09ItmB2LnYp9mEImFuZCB0YXNrLmNvbXBsZXRlZD09RmFsc2Upb3Ioc3RhdHVzPT0i2KraqdmF24zZhCDYtNiv2YciYW5kIHRhc2suY29tcGxldGVkKSkKICAgICAgICAgICAgaWYgbm90IHRhc2suY29tcGxldGVkOmNvdW50Kz0xCiAgICAgICAgc2VsZi5pdGVtc19sZXZhbHVlPWYie2NvdW50fSDYqti52K/Yp9ivINqp2KfYsdmH2KfbjCDZhtin2KrZhdin2YUgOiIKICAgICAgICBhd2FpdCBzdXBlcigpLnVwZGF0ZV9hc3luYygpCmFzeW5jIGRlZiBtYWluKHBhZ2U6UGFnZSk6CiAgICBwYWdlLnRpdGxlPSLbjNin2K/Yp9ixIHwgWWFkYXIiCiAgICBwYWdlLmhvcml6b250YWxfYWxpZ25tZW50PUNyb3NzQXhpc0FsaWdubWVudC5DRU5URVIKICAgIHBhZ2Uuc2Nyb2xsPVNjcm9sbE1vZGUuQURBUFRJVkUKICAgIGFzeW5jIGRlZiByZWdpc3RlcihlKToKICAgICAgICBpZiBkbGdfbW9kYWwuYWN0aW9uc1swXS52YWx1ZT09JydvciBkbGdfbW9kYWwuYWN0aW9uc1sxXS52YWx1ZT09Jyc6cGFzcwogICAgICAgIGVsc2U6CiAgICAgICAgICAgIGRsZ19tb2RhbC5vcGVuPUZhbHNlCiAgICAgICAgICAgIGdsb2JhbCB1c2VybmFtZQogICAgICAgICAgICB1c2VybmFtZT1kbGdfbW9kYWwuYWN0aW9uc1swXS52YWx1ZQogICAgICAgICAgICBwYXNzd29yZD1kbGdfbW9kYWwuYWN0aW9uc1sxXS52YWx1ZQogICAgICAgICAgICBhd2FpdCBwYWdlLnVwZGF0ZV9hc3luYygpCiAgICBkbGdfbW9kYWw9QWxlcnREaWFsb2cobW9kYWw9VHJ1ZSx0aXRsZT1UZXh0KCLYudi22YjbjNiqIC8g2YjYsdmI2K8iLHRleHRfYWxpZ249IkNFTlRFUiIsY29sb3I9ImJsdWUiKSxjb250ZW50PVRleHQoItmE2LfZgdinINmG2KfZhSDaqdin2LHYqNix24wg2Ygg2LHZhdiyINi52KjZiNixINiu2YjYryDYsdinINmI2KfYsdivINqp2YbbjNiv2Iwg2K/YsSDYtdmI2LHYqiDZhtiv2KfYtNiq2YYg2Kfaqdin2YbYqtiMINio2Ycg2LXZiNix2Kog2KfYqtmI2YXYp9iqINiz2KfYrtiq2Ycg2YXbjNi02YjYryIsdGV4dF9hbGlnbj0iQ0VOVEVSIiksYWN0aW9ucz1bVGV4dEZpZWxkKGxhYmVsPSLZhtin2YUg2qnYp9ix2KjYsduMIixpY29uPWljb25zLlBFUlNPTixjb2xvcj0iYmx1ZSIsaGVpZ2h0PTkwLHRleHRfYWxpZ249IkxlZnQiLG1heF9sZW5ndGg9MjAsKSxUZXh0RmllbGQobGFiZWw9Itix2YXYsiDYudio2YjYsSIsaWNvbj1pY29ucy5QQVNTV09SRCxwYXNzd29yZD1UcnVlLGNvbG9yPSJibHVlIixoZWlnaHQ9OTAsdGV4dF9hbGlnbj0iTGVmdCIsY2FuX3JldmVhbF9wYXNzd29yZD1UcnVlLCksRWxldmF0ZWRCdXR0b24odGV4dD0i2KjYstmGINio2LHbjNmFIixpY29uPWljb25zLkxPR0lOLHNjYWxlPTEsbGVmdD0icmlnaHQiLG9uX2NsaWNrPXJlZ2lzdGVyLCldLGFjdGlvbnNfYWxpZ25tZW50PU1haW5BeGlzQWxpZ25tZW50LkNFTlRFUikKICAgIHBhZ2UuZGlhbG9nPWRsZ19tb2RhbAogICAgZGxnX21vZGFsLm9wZW49VHJ1ZQogICAgYXdhaXQgcGFnZS5hZGRfYXN5bmMoVG9kb0FwcCgpKQphcHAodGFyZ2V0PW1haW4sdmlldz1BcHBWaWV3LldFQl9CUk9XU0VSLGFzc2V0c19kaXI9ImFzc2V0cyIp"""))
+from flet import app, PopupMenuItem, PopupMenuButton, ListTile, Text, AlertDialog, ElevatedButton, TextThemeStyle, Page, Checkbox, AppView, ScrollMode, OutlinedButton, FloatingActionButton, Row, Text, Tab, Tabs, TextField, UserControl, Column, icons, colors, IconButton, CrossAxisAlignment, MainAxisAlignment
+
+
+class Task(UserControl):
+    def __init__(self, task_name, task_status_change, task_delete):
+        super().__init__()
+        self.completed = False
+        self.task_name = task_name
+        self.task_status_change = task_status_change
+        self.task_delete = task_delete
+
+    def build(self):
+        self.display_task = Checkbox(
+            value=False, label=self.task_name, on_change=self.status_changed
+        )
+        self.edit_name = TextField(expand=1)
+        self.display_view = Row(
+            alignment=MainAxisAlignment.SPACE_BETWEEN,
+            vertical_alignment=CrossAxisAlignment.CENTER,
+            controls=[
+                self.display_task,
+                Row(
+                    spacing=0,
+                    controls=[
+                        IconButton(
+                            icon=icons.CREATE_OUTLINED,
+                            tooltip="ویرایش",
+                            on_click=self.edit_clicked,
+                        ),
+                        IconButton(
+                            icons.DELETE_OUTLINE,
+                            tooltip="حذف",
+                            on_click=self.delete_clicked,
+                        ),
+                    ],
+                ),
+            ],
+        )
+        self.edit_view = Row(
+            visible=False,
+            alignment=MainAxisAlignment.SPACE_BETWEEN,
+            vertical_alignment=CrossAxisAlignment.CENTER,
+            controls=[
+                self.edit_name,
+                IconButton(
+                    icon=icons.DONE_OUTLINE_OUTLINED,
+                    icon_color=colors.GREEN,
+                    tooltip="اعمال",
+                    on_click=self.save_clicked,
+                ),
+            ],
+        )
+        return Column(controls=[self.display_view, self.edit_view])
+
+    async def edit_clicked(self, e):
+        self.edit_name.value = self.display_task.label
+        self.display_view.visible = False
+        self.edit_view.visible = True
+        await self.update_async()
+
+    async def save_clicked(self, e):
+        self.display_task.label = self.edit_name.value
+        self.display_view.visible = True
+        self.edit_view.visible = False
+        await self.update_async()
+
+    async def status_changed(self, e):
+        self.completed = self.display_task.value
+        await self.task_status_change(self)
+
+    async def delete_clicked(self, e):
+        await self.task_delete(self)
+
+
+class TodoApp(UserControl):
+
+    def build(self):
+        self.new_task = TextField(
+            hint_text="قراره چکار انجام بدی",
+            on_submit=self.add_clicked,
+            expand=True,
+            text_align="RIGHT"
+        )
+        self.tasks = Column()
+        self.filter = Tabs(
+            scrollable=False,
+            selected_index=0,
+            on_change=self.tabs_changed,
+            tabs=[Tab(text="همه"), Tab(text="فعال"),
+                  Tab(text="تکمیل شده")],
+        )
+        self.items_left = Text(
+            "همه تکمیل شد", text_align="RIGHT")
+
+        return Column(
+            width=1000,
+            controls=[
+                Row(
+                    controls=[
+                        PopupMenuButton(
+                            icon=icons.ACCOUNT_CIRCLE,
+                            items=[
+                                PopupMenuItem(
+                                    text="خروج از حساب", icon=icons.EXIT_TO_APP),
+                                PopupMenuItem(
+                                    text="تغییر پسورد", icon=icons.PASSWORD_OUTLINED),
+                                PopupMenuItem(
+                                    text="حذف حساب کاربری", icon=icons.DELETE),
+                            ],
+                        )
+                    ]
+                ),
+                Row(
+                    controls=[
+                        self.new_task,
+                        FloatingActionButton(
+                            icon=icons.ADD, on_click=self.add_clicked
+                        ),
+                    ],
+                ),
+                Column(
+                    spacing=25,
+                    controls=[
+                        self.filter,
+                        self.tasks,
+                        Row(
+                            alignment=MainAxisAlignment.SPACE_BETWEEN,
+                            vertical_alignment=CrossAxisAlignment.CENTER,
+                            controls=[
+                                self.items_left,
+                                OutlinedButton(
+                                    text="حذف تکمیل شده ها", on_click=self.clear_clicked
+                                ),
+                            ],
+                        ),
+                    ],
+                ),
+            ],
+        )
+
+    async def add_clicked(self, e):
+        if self.new_task.value:
+            task = Task(self.new_task.value,
+                        self.task_status_change, self.task_delete)
+            self.tasks.controls.append(task)
+            self.new_task.value = ""
+            await self.new_task.focus_async()
+            await self.update_async()
+
+    async def task_status_change(self, task):
+        await self.update_async()
+
+    async def task_delete(self, task):
+        self.tasks.controls.remove(task)
+        await self.update_async()
+
+    async def tabs_changed(self, e):
+        await self.update_async()
+
+    async def clear_clicked(self, e):
+        for task in self.tasks.controls[:]:
+            if task.completed:
+                await self.task_delete(task)
+
+    async def update_async(self):
+        status = self.filter.tabs[self.filter.selected_index].text
+        count = 0
+        for task in self.tasks.controls:
+            task.visible = (
+                status == "همه"
+                or (status == "فعال" and task.completed == False)
+                or (status == "تکمیل شده" and task.completed)
+            )
+            if not task.completed:
+                count += 1
+        self.items_levalue = f"{count} تعداد کارهای ناتمام :"
+        await super().update_async()
+
+
+async def main(page: Page):
+    page.title = "یادار | Yadar"
+    page.horizontal_alignment = CrossAxisAlignment.CENTER
+    page.scroll = ScrollMode.ADAPTIVE
+
+    async def login(e):
+        dlg_modal.open = False
+        print(dlg_modal)
+        await page.update_async()
+
+        # print(dlg_modal.tabs[0].value)
+
+    async def register(e):
+        dlg_modal.open = False
+        await page.update_async()
+        # print(dlg_modal.tabs[0].value)
+        # if dlg_modal.actions[0].value == '' or dlg_modal.actions[1].value == '':
+        #     pass
+        # else:
+        #     dlg_modal.open = False
+        #     global username
+        #     username = dlg_modal.actions[0].value
+        #     password = dlg_modal.actions[1].value
+        #     await page.update_async()
+
+    dlg_modal = AlertDialog(
+        actions_alignment=MainAxisAlignment.END,
+        modal=True,
+        # title=Text("Please confirm"),
+        content=Tabs(
+            scrollable=False,
+            selected_index=0,
+            width=800,
+            height=415,
+            animation_duration=300,
+            tabs=[
+                Tab(
+                    text="Login",
+                    icon=icons.LOGIN,
+                    content=Column(
+                        [
+                            Text(size=30),
+                            TextField(
+                                label="نام کاربری",
+                                icon=icons.PERSON,
+                                color="blue",
+                                height=100,
+                                text_align="Left",
+                                max_length=20
+                            ),
+                            TextField(label="رمز عبور",
+                                      icon=icons.PASSWORD,
+                                      password=True,
+                                      color="blue",
+                                      height=90,
+                                      text_align="Left",
+                                      can_reveal_password=True,
+                                      ),
+                            Text(size=50),
+                            ElevatedButton(text="بزن بریم",
+                                           icon=icons.LOGIN,
+                                           scale=1,
+                                           left="right",
+                                           on_click=login,
+
+                                           ),
+                        ],
+                        spacing=5
+                    )
+                ),
+
+                Tab(
+                    text="Register",
+                    icon=icons.ASSIGNMENT,
+                    content=Column(
+                        [
+                            Text(size=30),
+                            TextField(
+                                label="نام کاربری",
+                                icon=icons.ACCOUNT_CIRCLE,
+                                color="blue",
+                                height=90,
+                                text_align="Left",
+                                max_length=20,
+                            ),
+                            TextField(label="رمز عبور",
+                                      icon=icons.PASSWORD,
+                                      password=True,
+                                      color="blue",
+                                      height=90,
+                                      text_align="Left",
+                                      can_reveal_password=True,
+                                      ),
+                            TextField(label="تکرار رمز عبور",
+                                      icon=icons.PASSWORD,
+                                      password=True,
+                                      color="blue",
+                                      height=90,
+                                      text_align="Left",
+                                      can_reveal_password=True,
+                                      ),
+                            ElevatedButton(text="ثبت نام",
+                                           icon=icons.LOGIN,
+                                           scale=1,
+                                           left="right",
+                                           on_click=register,
+                                           ),
+                        ],
+                        spacing=5,
+                    ),
+                ),
+            ],
+        ),
+    )
+
+    def open_dlg_modal(e):
+        page.dialog = dlg_modal
+        dlg_modal.open = True
+        page.update()
+    page.dialog = dlg_modal
+    dlg_modal.open = True
+    await page.add_async(TodoApp())
+
+app(main)
+# app(target=main, view=AppView.WEB_BROWSER, assets_dir="assets")
