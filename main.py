@@ -1,4 +1,6 @@
-from flet import app, PopupMenuItem, PopupMenuButton, ListTile, Text, AlertDialog, ElevatedButton, TextThemeStyle, Page, Checkbox, AppView, ScrollMode, OutlinedButton, FloatingActionButton, Row, Text, Tab, Tabs, TextField, UserControl, Column, icons, colors, IconButton, CrossAxisAlignment, MainAxisAlignment
+from flet import app, SnackBar, PopupMenuItem, PopupMenuButton, ListTile, Text, AlertDialog, ElevatedButton, TextThemeStyle, Page, Checkbox, AppView, ScrollMode, OutlinedButton, FloatingActionButton, Row, Text, Tab, Tabs, TextField, UserControl, Column, icons, colors, IconButton, CrossAxisAlignment, MainAxisAlignment
+import requests
+import json
 
 
 class Task(UserControl):
@@ -74,6 +76,19 @@ class Task(UserControl):
 
 class TodoApp(UserControl):
 
+    def sync(acss_token):
+        global token
+        token = acss_token
+        # respons = requests.get("https://todoyar.liara.run/todo/", headers={
+        #     'Authorization': f'Bearer {acss_token}'
+        # }, data='')
+        # tasks_list = respons.json()
+        # print(tasks_list)
+
+        # for i in tasks_list:
+        #     # print(i.get("title"))
+        #     print(i)
+
     def build(self):
         self.new_task = TextField(
             hint_text="قراره چکار انجام بدی",
@@ -140,9 +155,34 @@ class TodoApp(UserControl):
 
     async def add_clicked(self, e):
         if self.new_task.value:
+            # else:
+
+            respons = requests.get("https://todoyar.liara.run/todo/", headers={
+                'Authorization': f'Bearer {token}'
+            }, data='')
+            tasks_list = respons.json()
+            self.tasks.controls.clear()
+            await self.update_async()
+            for i in tasks_list:
+                task = Task(i.get("title"),
+                            self.task_status_change, self.task_delete)
+                self.tasks.controls.append(task)
+                await self.new_task.focus_async()
+                await self.update_async()
+
             task = Task(self.new_task.value,
                         self.task_status_change, self.task_delete)
             self.tasks.controls.append(task)
+
+            response = requests.post("https://todoyar.liara.run/todo/", headers={
+                'Authorization': f'Bearer {token}',
+                'Content-Type': 'application/json'
+            }, data=json.dumps({
+                "title": self.new_task.value,
+                "tik": "False"
+            }))
+            # print(respons.text)
+
             self.new_task.value = ""
             await self.new_task.focus_async()
             await self.update_async()
@@ -178,34 +218,82 @@ class TodoApp(UserControl):
 
 
 async def main(page: Page):
-    page.title = "یادار | Yadar"
+    page.title = "تودویار | Todoyar"
     page.horizontal_alignment = CrossAxisAlignment.CENTER
     page.scroll = ScrollMode.ADAPTIVE
 
     async def login(e):
-        dlg_modal.open = False
-        print(dlg_modal)
-        await page.update_async()
+        login_usern = dlg_modal.content.tabs[0].content.controls[1].value
+        passw = dlg_modal.content.tabs[0].content.controls[2].value
+        if login_usern and passw != '':
+            response = requests.post("https://todoyar.liara.run/login/", headers={
+                'Content-Type': 'application/json'},
+                data=json.dumps({
+                    "username": login_usern,
+                    "password": passw
+                }))
+            if response:
+                page.snack_bar.content = Text(
+                    "خوش آمدید. برای همگام سازی، شروع به اضافه کردن تسک جدید کنید")
+                page.snack_bar.open = True
+                refresh_token = response.json().get('refresh')
+                access_token = response.json().get('access')
+                print(refresh_token, access_token)
+                TodoApp.sync(access_token)
 
-        # print(dlg_modal.tabs[0].value)
+                dlg_modal.open = False
+            else:
+                page.snack_bar.content = Text("مشکلی در ورود وجود دارد")
+                page.snack_bar.open = True
+        else:
+            page.snack_bar.content = Text("پر کردن فیلد ها ضروری است")
+            page.snack_bar.open = True
+        await page.update_async()
 
     async def register(e):
-        dlg_modal.open = False
+        username = dlg_modal.content.tabs[1].content.controls[1].value
+        pass1 = dlg_modal.content.tabs[1].content.controls[2].value
+        pass2 = dlg_modal.content.tabs[1].content.controls[3].value
+        if pass1 == pass2 and pass1 != '' and username != '':
+
+            response = requests.post("https://todoyar.liara.run/register/", data={
+                "username": str(username), "password": str(pass1)})
+
+            if response:
+                print(response.text)
+                print(username)
+                dlg_modal.content.tabs[0].content.controls[1].value = username
+                dlg_modal.content.tabs[0].content.controls[2].value = pass1
+                username = dlg_modal.content.tabs[1].content.controls[3].value = ''
+                pass2 = dlg_modal.content.tabs[1].content.controls[3].value = ''
+                pass2 = dlg_modal.content.tabs[1].content.controls[2].value = ''
+
+                page.snack_bar.content = Text(
+                    "اکانت شما ساخته شد. حالا وارد شوید")
+                page.snack_bar.open = True
+                # page.update()
+
+            else:
+                page.snack_bar.content = Text("مشکل در ارتباط با سرور")
+                page.snack_bar.open = True
+
+        elif pass1 != pass2 or username == '' or pass1 == '' or pass2 == '':
+            pass2 = dlg_modal.content.tabs[1].content.controls[3].value = ''
+            pass2 = dlg_modal.content.tabs[1].content.controls[2].value = ''
+            page.snack_bar.content = Text("پر کردن فیلد ها ضروری است")
+            page.snack_bar.open = True
+
+        # اگر مقدار تب که الان برابر 1 هست برابر 0 بشه میره توی لاگین و مقدار اونارو میاره
+        # dlg_modal.open = False
         await page.update_async()
-        # print(dlg_modal.tabs[0].value)
-        # if dlg_modal.actions[0].value == '' or dlg_modal.actions[1].value == '':
-        #     pass
-        # else:
-        #     dlg_modal.open = False
-        #     global username
-        #     username = dlg_modal.actions[0].value
-        #     password = dlg_modal.actions[1].value
-        #     await page.update_async()
+
+    page.snack_bar = SnackBar(
+        content=Text("خطایی وجود دارد/رخ داده است"),
+    )
 
     dlg_modal = AlertDialog(
         actions_alignment=MainAxisAlignment.END,
         modal=True,
-        # title=Text("Please confirm"),
         content=Tabs(
             scrollable=False,
             selected_index=0,
@@ -217,26 +305,29 @@ async def main(page: Page):
                     text="Login",
                     icon=icons.LOGIN,
                     content=Column(
-                        [
+                        controls=[
                             Text(size=30),
                             TextField(
-                                label="نام کاربری",
+                                label="Username",
                                 icon=icons.PERSON,
                                 color="blue",
                                 height=100,
                                 text_align="Left",
-                                max_length=20
+                                max_length=20,
+
                             ),
-                            TextField(label="رمز عبور",
+                            TextField(label="Password",
                                       icon=icons.PASSWORD,
                                       password=True,
                                       color="blue",
                                       height=90,
                                       text_align="Left",
                                       can_reveal_password=True,
+
+
                                       ),
                             Text(size=50),
-                            ElevatedButton(text="بزن بریم",
+                            ElevatedButton(text="Lets go",
                                            icon=icons.LOGIN,
                                            scale=1,
                                            left="right",
@@ -252,7 +343,7 @@ async def main(page: Page):
                     text="Register",
                     icon=icons.ASSIGNMENT,
                     content=Column(
-                        [
+                        controls=[
                             Text(size=30),
                             TextField(
                                 label="نام کاربری",
@@ -299,6 +390,5 @@ async def main(page: Page):
     page.dialog = dlg_modal
     dlg_modal.open = True
     await page.add_async(TodoApp())
-
-# app(main)
+#app(main)
 app(target=main, view=AppView.WEB_BROWSER, assets_dir="assets")
