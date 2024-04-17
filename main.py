@@ -66,8 +66,8 @@ class Task(UserControl):
     async def save_clicked(self, e):
         self.display_task.label = self.edit_name.value
 
-        response = requests.put(f"https://todoyar.liara.run/todo/{self.task_id}/", headers={
-            'Authorization': f'Bearer {token}',
+        response = requests.put(f"https://todoyaar.liara.run/todo/{self.task_id}/", headers={
+            'Authorization': f'Token {token}',
             'Content-Type': 'application/json'
         }, data=json.dumps({
             "title": self.display_task.label
@@ -87,23 +87,9 @@ class Task(UserControl):
 
 class TodoApp(UserControl):
 
-    def sync(acss_token, refresh_token):
-
+    def sync(acss_token):
         global token
         token = acss_token
-        global rfresh_token
-        rfresh_token = refresh_token
-
-        responsef = requests.post("https://todoyar.liara.run/todo/", headers={
-            'Authorization': f'Bearer {token}'
-        })
-        if str(responsef) == "<Response [401]>":
-            response = requests.post("https://todoyar.liara.run/login/refresh/", headers={
-                'Content-Type': 'application/json'
-            }, data=json.dumps({
-                "refresh": rfresh_token
-            }))
-            TodoApp.sync(response.json().get("access"), rfresh_token)
 
     def build(self):
         self.new_task = TextField(
@@ -121,30 +107,35 @@ class TodoApp(UserControl):
                   Tab(text="تکمیل شده")],
         )
         self.items_left = Text(
-            "خبری نیست", text_align="RIGHT")
+            "چیزی نمیبینید؟ همگام سازی را بفشارید", text_align="RIGHT", size=10)
 
         return Column(
             width=1000,
             controls=[
                 Row(
+                    alignment=MainAxisAlignment.SPACE_BETWEEN,
+                    vertical_alignment=CrossAxisAlignment.CENTER,
                     controls=[
                         PopupMenuButton(
-                            icon=icons.ACCOUNT_CIRCLE,
+                            icon=icons.ACCOUNT_BOX,
                             items=[
                                 PopupMenuItem(
                                     text="همگام سازی مجدد", icon=icons.CLOUD_SYNC, on_click=self.add_clicked),
                                 PopupMenuItem(
                                     text="خروج از حساب کاربری", icon=icons.EXIT_TO_APP, on_click=self.forget_user),
-                                # PopupMenuItem(
-                                #     text="تغییر پسورد", icon=icons.PASSWORD_OUTLINED, on_click=self.delete_account),
                                 PopupMenuItem(
                                     text="حذف حساب کاربری", icon=icons.DELETE, on_click=self.delete_account),
                             ],
-                        )
+                        ),
+
+                        ElevatedButton("همگام سازی مجدد", icon=icons.CLOUD_SYNC,
+                                       on_click=self.add_clicked, color="gray"),
                     ]
+
                 ),
                 Row(
                     controls=[
+
                         self.new_task,
                         FloatingActionButton(
                             icon=icons.ADD, on_click=self.add_clicked
@@ -161,8 +152,8 @@ class TodoApp(UserControl):
                             vertical_alignment=CrossAxisAlignment.CENTER,
                             controls=[
                                 self.items_left,
-                                OutlinedButton(
-                                    text="حذف تکمیل شده ها", on_click=self.clear_clicked
+                                ElevatedButton(
+                                    text="حذف تکمیل شده ها", on_click=self.clear_clicked, icon=icons.DELETE_FOREVER, color="red"
                                 ),
                             ],
                         ),
@@ -172,17 +163,21 @@ class TodoApp(UserControl):
         )
 
     async def forget_user(self, e):
+        for task in self.tasks.controls[:]:
+            await self.task_delete(task)
         await self.page.client_storage.clear_async()
         self.page.dialog.open = True
         await self.page.update_async()
 
-    async def delete_account(self, e):
+    async def delete_account(self, e,):
+        for task in self.tasks.controls[:]:
+            await self.task_delete(task)
         self.page.bottom_sheet.open = True
         await self.page.update_async()
 
     async def bs_yes(self):
-        requests.delete("https://todoyar.liara.run/account/delete/", headers={
-            'Authorization': f'Bearer {token}'
+        requests.delete("https://todoyaar.liara.run/account/delete/", headers={
+            'Authorization': f'Token {token}'
         })
         await self.page.client_storage.clear_async()
         self.page.dialog.open = True
@@ -191,21 +186,21 @@ class TodoApp(UserControl):
 
     async def bs_no(self):
         self.page.bottom_sheet.open = False
+        await self.page.update_async()
 
     async def add_clicked(self, e):
-        # ایده ای هست که میتونی مستقیما از کلاس تسک این کارارو انجام بدی منظورم گرفتن و فرستادن ای پی آی هست
         if self.new_task.value:
             # else:
-            requests.post("https://todoyar.liara.run/todo/", headers={
-                'Authorization': f'Bearer {token}',
+            requests.post("https://todoyaar.liara.run/todo/", headers={
+                'Authorization': f'Token {token}',
                 'Content-Type': 'application/json'
             }, data=json.dumps({
                 "title": self.new_task.value,
                 "tik": "False"
             }))
 
-        respons = requests.get("https://todoyar.liara.run/todo/", headers={
-            'Authorization': f'Bearer {token}'
+        respons = requests.get("https://todoyaar.liara.run/todo/", headers={
+            'Authorization': f'Token {token}'
         }, data='')
 
         tasks_list = respons.json()
@@ -214,16 +209,14 @@ class TodoApp(UserControl):
             task = Task(i.get("title"),
                         self.task_status_change, self.task_delete, i.get("id"), completed=i.get('tik'))
             self.tasks.controls.append(task)
-            # await self.new_task.focus_async()
-            # await self.update_async()
         self.new_task.value = ""
         await self.new_task.focus_async()
         await self.update_async()
 
     async def task_status_change(self, task, task_id='', tik=''):
         if task_id != '':
-            requests.put(f"https://todoyar.liara.run/todo/{task_id}/", headers={
-                'Authorization': f'Bearer {token}',
+            requests.put(f"https://todoyaar.liara.run/todo/{task_id}/", headers={
+                'Authorization': f'Token {token}',
                 'Content-Type': 'application/json'
             }, data=json.dumps({
                 "tik": tik
@@ -237,8 +230,8 @@ class TodoApp(UserControl):
         self.tasks.controls.remove(task)
         await self.update_async()
         if id != '':
-            requests.delete(f"https://todoyar.liara.run/todo/{id}/", headers={
-                'Authorization': f'Bearer {token}'
+            requests.delete(f"https://todoyaar.liara.run/todo/{id}/", headers={
+                'Authorization': f'Token {token}'
             })
 
     async def tabs_changed(self, e):
@@ -247,8 +240,8 @@ class TodoApp(UserControl):
     async def clear_clicked(self, e):
         for task in self.tasks.controls[:]:
             if task.completed:
-                requests.delete(f"https://todoyar.liara.run/todo/{task.task_id}/", headers={
-                    'Authorization': f'Bearer {token}'
+                requests.delete(f"https://todoyaar.liara.run/todo/{task.task_id}/", headers={
+                    'Authorization': f'Token {token}'
                 })
                 await self.task_delete(task)
 
@@ -265,11 +258,8 @@ class TodoApp(UserControl):
                 count += 1
         self.items_levalue = f"{count} تعداد کارهای ناتمام :"
         await super().update_async()
-
-
 async def main(page: Page):
     page.title = "تودویار | Todoyar"
-
     page.horizontal_alignment = CrossAxisAlignment.CENTER
     page.scroll = ScrollMode.ADAPTIVE
 
@@ -279,10 +269,10 @@ async def main(page: Page):
         if login_usern and passw != '':
             if len(passw) < 8 or len(login_usern) < 5:
                 page.snack_bar.content = Text(
-                    "حداقل کاراکتر برای نام کاربری 5 حرف و برای پسورد 8 حرف است")
+                    "حداقل کاراکتر برای نام کاربری 5 حرف و برای پسورد 8 حرف است", text_align="RIGHT")
                 page.snack_bar.open = True
             else:
-                response = requests.post("https://todoyar.liara.run/account/login/", headers={
+                response = requests.post("https://todoyaar.liara.run/account/login/", headers={
                     'Content-Type': 'application/json'},
                     data=json.dumps({
                         "username": login_usern,
@@ -290,22 +280,23 @@ async def main(page: Page):
                     }))
                 if response:
                     page.snack_bar.content = Text(
-                        "خوش آمدید. برای همگام سازی، شروع به اضافه کردن تسک جدید کنید")
+                        "خوش آمدید. برای همگام سازی، شروع به اضافه کردن تسک جدید کنید", text_align="RIGHT")
                     page.snack_bar.open = True
-                    refresh_token = response.json().get('refresh')
-                    access_token = response.json().get('access')
-
+                    access_token = response.json().get('token')
+                    TodoApp.sync(access_token)
                     await page.client_storage.set_async("access_token", access_token)
-                    await page.client_storage.set_async("refresh_token", refresh_token)
-                    # print(refresh_token, access_token)
-                    TodoApp.sync(access_token, refresh_token)
                     dlg_modal.open = False
-
+                elif response.status_code == 400:
+                    page.snack_bar.content = Text(
+                        f"نام کاربری یا رمز عبور اشتباه است", text_align="RIGHT")
+                    page.snack_bar.open = True
                 else:
-                    page.snack_bar.content = Text("مشکلی در ورود وجود دارد")
+                    page.snack_bar.content = Text(
+                        f"{response}: مشکلی در ورود وجود دارد", text_align="RIGHT")
                     page.snack_bar.open = True
         else:
-            page.snack_bar.content = Text("پر کردن فیلد ها ضروری است")
+            page.snack_bar.content = Text(
+                "پر کردن صحیح فیلد ها ضروری است", text_align="RIGHT")
             page.snack_bar.open = True
         await page.update_async()
     bs = BottomSheet(
@@ -324,11 +315,6 @@ async def main(page: Page):
                         ],
                     ),
                 ],
-
-
-
-
-
                 tight=True,
             ),
             padding=10,
@@ -342,11 +328,11 @@ async def main(page: Page):
         if pass1 == pass2 and pass1 != '' and username != '':
             if len(pass1) < 8 or len(username) < 5:
                 page.snack_bar.content = Text(
-                    "حداقل کاراکتر برای نام کاربری 5 حرف و برای پسورد 8 حرف است")
+                    "حداقل کاراکتر برای نام کاربری 5 حرف و برای پسورد 8 حرف است", text_align="RIGHT")
                 page.snack_bar.open = True
             else:
 
-                response = requests.post("https://todoyar.liara.run/account/register/", data={
+                response = requests.post("https://todoyaar.liara.run/account/register/", data={
                     "username": str(username), "password": str(pass1)})
 
                 if response:
@@ -357,22 +343,20 @@ async def main(page: Page):
                     pass2 = dlg_modal.content.tabs[1].content.controls[2].value = ''
 
                     page.snack_bar.content = Text(
-                        "اکانت شما ساخته شد. حالا وارد شوید")
+                        "اکانت شما ساخته شد. حالا وارد شوید", text_align="RIGHT")
                     page.snack_bar.open = True
-                    # page.update()
 
                 else:
-                    page.snack_bar.content = Text("مشکل در ارتباط با سرور")
+                    page.snack_bar.content = Text(
+                        f"{response}مشکل در ارتباط با سرور", text_align="RIGHT")
                     page.snack_bar.open = True
 
         elif pass1 != pass2 or username == '' or pass1 == '' or pass2 == '':
             pass2 = dlg_modal.content.tabs[1].content.controls[3].value = ''
             pass2 = dlg_modal.content.tabs[1].content.controls[2].value = ''
-            page.snack_bar.content = Text("پر کردن صحیح فیلد ها ضروری است")
+            page.snack_bar.content = Text(
+                "پر کردن صحیح فیلد ها ضروری است", text_align="RIGHT")
             page.snack_bar.open = True
-
-        # اگر مقدار تب که الان برابر 1 هست برابر 0 بشه میره توی لاگین و مقدار اونارو میاره
-        # dlg_modal.open = False
         await page.update_async()
 
     page.snack_bar = SnackBar(
@@ -420,7 +404,7 @@ async def main(page: Page):
                                            scale=1,
                                            left="right",
                                            on_click=login,
-
+                                           color="green"
                                            ),
                         ],
                         spacing=5
@@ -464,6 +448,7 @@ async def main(page: Page):
                                            scale=1,
                                            left="right",
                                            on_click=register,
+                                           color="green",
                                            ),
                         ],
                         spacing=5,
@@ -475,16 +460,10 @@ async def main(page: Page):
 
     page.dialog = dlg_modal
     page.bottom_sheet = bs
-    # 3
-    # await page.client_storage.clear_async()
-    # 3
     if await page.client_storage.contains_key_async("access_token"):
         acs_tok = await page.client_storage.get_async("access_token")
-        rfr_tok = await page.client_storage.get_async("refresh_token")
-        TodoApp.sync(acs_tok, rfr_tok)
+        TodoApp.sync(acs_tok)
     else:
         dlg_modal.open = True
     await page.add_async(TodoApp())
-
-# app(main)
 app(target=main, view=AppView.WEB_BROWSER, assets_dir="assets")
